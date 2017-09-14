@@ -1,5 +1,4 @@
-?
-\#!groovy
+#!groovy
 import groovy.json.JsonSlurperClassic
 node {
 
@@ -10,8 +9,7 @@ node {
     def HUB_ORG=env.HUB_ORG_DH
     def SFDC_HOST = env.SFDC_HOST_DH
     def JWT_KEY_CRED_ID = env.JWT_CRED_ID_DH
-    def CONNECTED_APP_CONSUMER_KE
-    Y=env.CONNECTED_APP_CONSUMER_KEY_DH
+    def CONNECTED_APP_CONSUMER_KEY=env.CONNECTED_APP_CONSUMER_KEY_DH
 
     def toolbelt = env.SFCLI_HOME
 

@@ -23,6 +23,7 @@ public with sharing class PropertyController {
 
     @AuraEnabled
     public static Property__c findById(Id propertyId) {
+      System.debug('propertyId: '+propertyId);
         return [SELECT id, name, beds__c, baths__c, address__c, city__c, state__c, price__c, Location__Latitude__s, Location__Longitude__s, Picture__c 
                 FROM Property__c
                 WHERE Id=:propertyId];

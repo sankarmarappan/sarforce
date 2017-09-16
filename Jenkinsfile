@@ -20,8 +20,8 @@ node {
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Create Scratch Org') {
-            rc = sh returnStatus: true, script: "${toolbelt} force --help"
-            /*rc = sh returnStatus: true, script: "${toolbelt} force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+
+            rc = sh returnStatus: true, script: "${toolbelt} force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             if (rc != 0) { error 'hub org authorization failed' }
 
             // need to pull out assigned username
@@ -31,11 +31,11 @@ node {
             def robj = jsonSlurper.parseText(rmsg)
             if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.username
-            robj = null*/
+            robj = null
 
         }
 
-        /*stage('Push To Test Org') {
+        stage('Push To Test Org') {
             rc = sh returnStatus: true, script: "${toolbelt} force:source:push --targetusername ${SFDC_USERNAME}"
             if (rc != 0) {
                 error 'push failed'
@@ -55,6 +55,10 @@ node {
                     error 'apex test run failed'
                 }
             }
-        }*/
+        }
+
+        stage('collect results') {
+            junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+        }
     }
 }

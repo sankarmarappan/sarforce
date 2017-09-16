@@ -14,14 +14,12 @@ node {
     def toolbelt = tool 'toolbelt'
 
     stage('checkout source') {
-        printf ${toolbelt}
         // when running in multi-branch job, one must issue this command
         checkout scm
     }
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Create Scratch Org') {
-            printf ${jwt_key_file}
             rc = sh returnStatus: true, script: "${toolbelt} force --help"
             /*rc = sh returnStatus: true, script: "${toolbelt} force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             if (rc != 0) { error 'hub org authorization failed' }
